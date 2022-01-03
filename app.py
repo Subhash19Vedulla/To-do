@@ -39,6 +39,10 @@ class Data(db.Model):
 	def __init__(self, todo_v):
 		self.todo = todo_v
 		self.is_completed = False
+@app.route('/')
+def home():
+	todos = Data.query.all()
+	return render_template('home.html', todos=todos)
 
 @app.route('/add', methods=['POST'])
 def add_todo():
@@ -97,11 +101,6 @@ def filter_todo(num):
 	elif num == 3:
 		todos = Data.query.filter_by(is_completed = True)
 		return render_template('home.html', todos = todos)
-
-@app.route('/')
-def home():
-	todos = Data.query.all()
-	return render_template('home.html', todos=todos)
 
 if __name__ == '__main__':
 	db.create_all()
